@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Easy Compliance Solutions — Form XV &amp; Form X Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --primary-light: #eff6ff;
+      --secondary: #0f766e;
+      --secondary-light: #f0fdfa;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --radius-lg: 14px;
+      --radius-md: 8px;
+      --shadow-lg: 0 20px 35px -10px rgba(15, 23, 42, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 280px, #f1f5f9 100%);
+      color: var(--slate-900);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Top Brand Bar */
+    .top-navbar {
+      background: rgba(15, 23, 42, 0.96);
+      color: #ffffff;
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #2563eb, #0d9488);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-subtitle {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .btn-nav-track {
+      background: #1e293b;
+      color: #38bdf8;
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-nav-track:hover { background: #334155; }
+
+    /* Top Disclaimer Strip */
+    .top-disclaimer-strip {
+      background: #fffbeb;
+      border-bottom: 1px solid #fde68a;
+      color: #92400e;
+      font-size: 12.5px;
+      padding: 9px 16px;
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    .top-disclaimer-strip strong { color: #78350f; }
+    .top-disclaimer-strip a {
+      color: #1d4ed8;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Main Card */
+    .main-wrapper {
+      max-width: 820px;
+      width: 100%;
+      margin: 24px auto;
+      padding: 0 16px;
+      flex: 1;
+    }
+
+    .order-card {
+      background: #ffffff;
+      padding: 32px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--slate-200);
+    }
+
+    .notice-banner {
+      background: #eff6ff;
+      border-left: 4px solid #1d4ed8;
+      padding: 14px 16px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      color: #1e3a8a;
+      line-height: 1.55;
+      margin-bottom: 22px;
+      font-weight: 500;
+    }
+
+    .step-box {
+      background: #f8fafc;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .step-text {
+      font-size: 13.5px;
+      color: var(--slate-700);
+      font-weight: 600;
+    }
+
+    .btn-download-fmt {
+      background: #1e293b;
+      color: #ffffff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-download-fmt:hover { background: #0f172a; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .order-card { padding: 20px; }
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--slate-800);
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .form-group input[readonly] {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .amount-highlight {
+      background: #ecfdf5 !important;
+      border-color: #6ee7b7 !important;
+      color: #065f46 !important;
+      font-size: 16px !important;
+    }
+
+    /* Highlighted Wage Sheet Upload Card */
+    .wage-upload-card {
+      border: 2px dashed #1d4ed8;
+      background: linear-gradient(135deg, #eff6ff 0%, #f8faff 100%);
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+    }
+
+    .wage-upload-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .wage-upload-card label {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1e3a8a;
+      margin: 0;
+    }
+
+    .auto-tag {
+      background: #1d4ed8;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .detect-msg {
+      margin-top: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0f766e;
+    }
+
+    /* Standard File Upload Boxes */
+    .file-upload-card {
+      border: 1.5px dashed #93c5fd;
+      background: #f8faff;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      margin-bottom: 14px;
+    }
+
+    .file-upload-card label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--slate-800);
+      margin-bottom: 6px;
+    }
+
+    input[type="file"] {
+      font-size: 13px;
+      width: 100%;
+    }
+
+    /* Payment QR, UPI & Bank Details Section */
+    .payment-box {
+      background: linear-gradient(135deg, #f0f9ff 0%, #f0fdfa 100%);
+      border: 1.5px solid #99f6e4;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .upi-info {
+      flex: 1;
+      min-width: 260px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--slate-800);
+    }
+
+    .copy-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .upi-badge {
+      display: inline-block;
+      background: #ffffff;
+      border: 1px solid #bae6fd;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-weight: 800;
+      color: #1d4ed8;
+      font-size: 14px;
+      margin: 4px 0 8px 0;
+    }
+
+    .btn-copy {
+      background: #e2e8f0;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-copy:hover { background: #cbd5e1; }
+    .btn-copy.copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #166534;
+    }
+
+    .bank-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    .bank-card-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+      color: #0f766e;
+    }
+
+    .qr-box {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    }
+
+    .qr-box img {
+      width: 165px;
+      height: 165px;
+      display: block;
+      border-radius: 6px;
+      margin: 0 auto;
+    }
+
+    .qr-caption {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--slate-700);
+      margin-top: 7px;
+    }
+
+    /* Mandatory Legal Consent Checkbox Box */
+    .consent-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin: 16px 0 8px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12.5px;
+      color: var(--slate-700);
+      line-height: 1.5;
+    }
+
+    .consent-box input[type="checkbox"] {
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      accent-color: #1d4ed8;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .consent-box a {
+      color: #1d4ed8;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #2563eb, #0f766e);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 15.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    /* Success Screen */
+    #successScreen {
+      display: none;
+      text-align: center;
+      padding: 24px 10px;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: #dcfce7;
+      color: #16a34a;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 14px;
+    }
+
+    .success-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #065f46;
+      margin-bottom: 10px;
+    }
+
+    .success-desc {
+      font-size: 14.5px;
+      color: var(--slate-700);
+      line-height: 1.65;
+      max-width: 540px;
+      margin: 0 auto 20px auto;
+    }
+
+    .summary-box {
+      background: #f8fafc;
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: left;
+      font-size: 13.5px;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 20px auto;
+    }
+
+    /* Live Order Status Tracker Section */
+    .tracker-section {
+      max-width: 820px;
+      width: 100%;
+      margin: 0 auto 24px auto;
+      padding: 0 16px;
+    }
+
+    .tracker-card {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      box-shadow: 0 10px 25px -10px rgba(15, 23, 42, 0.08);
+    }
+
+    .tracker-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin: 0 0 4px 0;
+    }
+
+    .tracker-sub {
+      font-size: 13px;
+      color: var(--slate-600);
+      margin: 0 0 14px 0;
+    }
+
+    .tracker-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tracker-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-family: inherit;
+    }
+
+    .btn-track {
+      background: #1d4ed8;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-track:hover { background: #1e3a8a; }
+
+    .tracker-results {
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    .track-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-progress { background: #dbeafe; color: #1e40af; }
+    .status-completed { background: #dcfce7; color: #166534; }
+
+    /* Governance, Statutory Rules, IT Policy & Disclaimer Card */
+    .legal-governance-section {
+      max-width: 820px;
+      width: 100%;
+      margin: 0 auto 28px auto;
+      padding: 0 16px;
+    }
+
+    .legal-card {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      box-shadow: 0 10px 25px -10px rgba(15, 23, 42, 0.08);
+    }
+
+    .legal-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin: 0 0 6px 0;
+    }
+
+    .legal-header-sub {
+      font-size: 13px;
+      color: var(--slate-600);
+      margin: 0 0 16px 0;
+    }
+
+    details.rule-accordion {
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+
+    details.rule-accordion summary {
+      padding: 13px 16px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--slate-800);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    details.rule-accordion summary::-webkit-details-marker { display: none; }
+    details.rule-accordion summary::after {
+      content: "+";
+      font-size: 18px;
+      font-weight: 800;
+      color: #1d4ed8;
+    }
+
+    details.rule-accordion[open] summary::after { content: "−"; }
+    details.rule-accordion[open] summary {
+      background: #eff6ff;
+      color: #1e3a8a;
+      border-bottom: 1px solid #dbeafe;
+    }
+
+    .rule-content {
+      padding: 14px 16px;
+      background: #ffffff;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--slate-700);
+    }
+
+    .rule-content ul, .rule-content ol {
+      margin: 6px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .rule-content li { margin-bottom: 6px; }
+
+    .disclaimer-callout {
+      background: #fffbeb;
+      border-left: 4px solid #d97706;
+      padding: 12px 14px;
+      border-radius: 6px;
+      color: #78350f;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Services & Promo Section + Footer */
+    .services-promo-section {
+      max-width: 960px;
+      width: 100%;
+      margin: 10px auto 24px auto;
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      color: #f8fafc;
+      padding: 32px 28px;
+      border-radius: var(--radius-lg);
+      text-align: center;
+      border: 1px solid #334155;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .promo-headline {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #38bdf8;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+    }
+
+    .promo-subheadline {
+      font-size: 14.5px;
+      color: #e2e8f0;
+      margin: 0 0 22px 0;
+      font-weight: 500;
+    }
+
+    .services-heading {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 26px;
+    }
+
+    .service-item {
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid #334155;
+      border-left: 3px solid #38bdf8;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .service-check { color: #2dd4bf; font-weight: 800; }
+
+    .cta-banner {
+      background: rgba(30, 58, 138, 0.45);
+      border: 1px solid #3b82f6;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+
+    .cta-question {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      letter-spacing: 0.4px;
+    }
+
+    .cta-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .cta-pill {
+      background: #0f172a;
+      border: 1px solid #475569;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: #f8fafc;
+      font-weight: 600;
+    }
+
+    .cta-pill a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .tagline-motto {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      color: #2dd4bf;
+      margin-top: 10px;
+      text-transform: uppercase;
+    }
+
+    .footer-links {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #334155;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      font-size: 12.5px;
+    }
+
+    .footer-links a {
+      color: #93c5fd;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .footer-links a:hover { text-decoration: underline; }
+
+    .footer-copy {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+
+    /* Floating WhatsApp Help Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      background: #16a34a;
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(22, 163, 74, 0.38);
+      z-index: 90;
+      transition: transform 0.15s;
+    }
+    .whatsapp-float:hover {
+      transform: translateY(-2px);
+      background: #15803d;
+    }
+
+    /* Policy Pop-up Modal */
+    .policy-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .policy-modal-box {
+      background: #ffffff;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    }
+
+    .policy-modal-header {
+      padding: 16px 20px;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .policy-modal-close {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .policy-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--slate-700);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Brand Bar -->
+  <nav class="top-navbar">
+    <div class="nav-inner">
+      <div class="brand-title">
+        <span>EASY COMPLIANCE SOLUTIONS</span>
+        <span class="brand-badge">Private Consultancy Portal</span>
+      </div>
+      <div class="nav-actions">
+        <span class="nav-subtitle">YOUR COMPLIANCE, OUR RESPONSIBILITY!</span>
+        <button type="button" class="btn-nav-track" onclick="document.getElementById('trackerSection').scrollIntoView({behavior:'smooth'})">
+          Track Order
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Non-Government Entity Disclaimer Strip -->
+  <div class="top-disclaimer-strip">
+    <strong>Notice:</strong> Easy Compliance Solutions is an independent, private HR &amp; Labour Compliance Consultancy—<strong>NOT a Government of India or State Labour Department website</strong>. 
+    <a onclick="openPolicyModal('disclaimer')">Read Full Disclaimer &amp; Rules</a>
+  </div>
+
+  <div class="main-wrapper">
+    <div class="order-card">
+
+      <!-- ORDER & SUBMISSION FORM -->
+      <div id="formContainer">
+        <div class="notice-banner">
+          <strong>Instructions:</strong><br>
+          1. Rate is <strong>₹20 per person</strong> (includes <strong>both</strong> Wage Slip Form XV &amp; Employment Card Form X).<br>
+          2. Download the Excel format below, fill in your employee data, upload the <strong>Wage Sheet</strong> along with your <strong>Company Signature &amp; Seal</strong>, pay the amount via QR / UPI / Bank Transfer, and upload the <strong>Payment Receipt</strong>.<br>
+          3. You will receive both generated sheets on your Mail ID <strong>within 1 hour</strong>.
+        </div>
+
+        <!-- Download Format Option -->
+        <div class="step-box">
+          <div class="step-text">Step 1: Download the Wage Sheet Excel format &amp; fill employee details</div>
+          <button type="button" class="btn-download-fmt" onclick="downloadWageFormat()">
+            Download Wage Sheet Format (.xlsx)
+          </button>
+        </div>
+
+        <form id="clientOrderForm">
+          <!-- OPTION 1: UPLOAD WAGE SHEET -->
+          <div class="wage-upload-card">
+            <div class="wage-upload-header">
+              <label for="wageSheetFile">1. Upload Wage Sheet (.xlsx, .xls, .csv) *</label>
+              <span class="auto-tag">Auto-Counts Persons</span>
+            </div>
+            <input type="file" id="wageSheetFile" accept=".xlsx, .xls, .csv" required />
+            <div class="detect-msg" id="detectMsg">
+              Upload your filled wage sheet to auto-calculate person count and total amount (₹20/person).
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Name of Company *</label>
+              <input type="text" id="companyName" placeholder="Enter Contractor / Company Name" required />
+            </div>
+
+            <div class="form-group">
+              <label>Payment Date &amp; Time</label>
+              <input type="text" id="paymentTime" readonly />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>How much persons u want to create (₹20 / person) *</label>
+              <input type="number" id="personCount" min="1" value="1" placeholder="Put person count here" required oninput="calculateTotal()" />
+            </div>
+
+            <div class="form-group">
+              <label>Your Amount (INR)</label>
+              <input type="text" id="calculatedAmount" class="amount-highlight" value="20" readonly />
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Mail ID to which u receive the document *</label>
+              <input type="email" id="clientEmail" placeholder="yourname@company.com" required />
+            </div>
+
+            <div class="form-group">
+              <label>Amount Paid (INR) *</label>
+              <input type="number" id="amountPaid" min="20" value="20" placeholder="Enter paid amount" required />
+            </div>
+          </div>
+
+          <!-- Company Signature with Seal -->
+          <div class="file-upload-card">
+            <label>2. Company Signature with Seal (Image or PDF) *</label>
+            <input type="file" id="companySignFile" accept="image/*,.pdf" required />
+          </div>
+
+          <!-- Static PhonePe QR, UPI & Canara Bank Payment Box -->
+          <div class="payment-box">
+            <div class="upi-info">
+              <div style="font-weight: 800; font-size: 15px; color: #0f172a;">Pay via QR, UPI or Bank Transfer</div>
+              <div>Payable Amount: <strong id="qrAmountText" style="color: #0f766e; font-size: 16px;">₹20</strong> <span style="font-size:12px; color:#475569;">(₹20 × Person Count)</span></div>
+
+              <div style="margin-top: 6px; font-weight: 700;">UPI ID:</div>
+              <div class="copy-row">
+                <span class="upi-badge">easycompliancesolutions@axl</span>
+                <button type="button" class="btn-copy" onclick="copyText('easycompliancesolutions@axl', this)">Copy UPI</button>
+              </div>
+
+              <div class="bank-card">
+                <div class="bank-card-title">Bank Account Details (NEFT / IMPS / RTGS)</div>
+                <div><strong>Bank Name:</strong> Canara Bank</div>
+                <div>
+                  <strong>Account Number:</strong> 2839120000371
+                  <button type="button" class="btn-copy" onclick="copyText('2839120000371', this)">Copy A/C</button>
+                </div>
+                <div>
+                  <strong>IFSC Code:</strong> CNRB0002839
+                  <button type="button" class="btn-copy" onclick="copyText('CNRB0002839', this)">Copy IFSC</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="qr-box">
+              <img 
+                id="paymentQrImage" 
+                src="image_69c326.png" 
+                onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi%3A%2F%2Fpay%3Fpa%3Deasycompliancesolutions%40axl%26pn%3DEasy%2520Compliance%2520Solutions%26cu%3DINR';" 
+                alt="PhonePe Payment QR Code" 
+              />
+              <div class="qr-caption">Scan PhonePe QR to Pay</div>
+            </div>
+          </div>
+
+          <!-- Upload Payment Screenshot / Receipt -->
+          <div class="file-upload-card">
+            <label>3. Upload Payment Screenshot / Receipt (Image or PDF) *</label>
+            <input type="file" id="paymentReceiptFile" accept="image/*,.pdf" required />
+          </div>
+
+          <!-- Mandatory Consent & Legal Acknowledgment -->
+          <div class="consent-box">
+            <input type="checkbox" id="legalConsent" required />
+            <label for="legalConsent" style="cursor:pointer;">
+              I confirm that I am authorized to upload this company/employee data, and I agree to the 
+              <a onclick="openPolicyModal('terms')">Portal Rules &amp; Refund Policy</a>, 
+              <a onclick="openPolicyModal('it')">IT &amp; Data Privacy Policy</a>, and acknowledge the 
+              <a onclick="openPolicyModal('disclaimer')">Non-Government Disclaimer &amp; Labour Rules</a>.
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            Submit Details &amp; Payment Receipt
+          </button>
+          <div id="statusText" style="text-align:center; margin-top:12px; font-size:13.5px; font-weight:600;"></div>
+        </form>
+      </div>
+
+      <!-- CLIENT SUCCESS MESSAGE SCREEN -->
+      <div id="successScreen">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Submission Successful! Payment &amp; Documents Received</div>
+        <p class="success-desc">
+          Thank you! Your <strong>wage sheet</strong>, company signature/seal, and payment receipt have been saved directly to our Google Drive and logged in our system.
+          You will receive <strong>both the Wage Slip (Form XV) and Employment Card (Form X)</strong> sheets on your email ID
+          <strong id="confirmEmailDisplay"></strong> <strong>within 1 hour</strong>.
+        </p>
+        <div class="summary-box" id="receiptSummary"></div>
+        <button type="button" class="btn-download-fmt" onclick="location.reload()">Submit Another Request</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LIVE ORDER STATUS TRACKER SECTION -->
+  <section class="tracker-section" id="trackerSection">
+    <div class="tracker-card">
+      <h3 class="tracker-title">Track Your Order Status</h3>
+      <p class="tracker-sub">Enter your Order ID (e.g., <code>ECS-20261121-...</code>) or registered Email ID to check live processing status.</p>
+      <form class="tracker-form" onsubmit="trackOrder(event)">
+        <input type="text" id="trackQueryInput" placeholder="Enter Order ID or Client Email ID" required />
+        <button type="submit" class="btn-track" id="trackBtn">Check Status</button>
+      </form>
+      <div class="tracker-results" id="trackerResults"></div>
+    </div>
+  </section>
+
+  <!-- STATUTORY RULES, IT POLICY, PORTAL RULES & DISCLAIMER SECTION -->
+  <section class="legal-governance-section" id="rulesSection">
+    <div class="legal-card">
+      <h3 class="legal-header-title">Portal Rules, Statutory Labour Provisions, IT Policy &amp; Disclaimer</h3>
+      <p class="legal-header-sub">Please review the governing statutory framework, data protection rules, and portal terms before submitting employee records.</p>
+
+      <!-- 1. Disclaimer -->
+      <details class="rule-accordion" open>
+        <summary>1. Important Disclaimer (Private Consultancy Notice)</summary>
+        <div class="rule-content">
+          <div class="disclaimer-callout">
+            <strong>Easy Compliance Solutions</strong> is a <strong>private, independent compliance consultancy and document-formatting service</strong>. We are <strong>NOT</strong> affiliated with, endorsed by, authorized by, or connected to the Ministry of Labour &amp; Employment, any State Labour Department, or any Government of India portal or agency.<br><br>
+            This portal solely assists contractors, employers, and HR teams in formatting their submitted payroll data into statutory templates (<strong>Form XV – Wage Slip</strong> and <strong>Form X – Employment Card</strong>). The legal accuracy, authenticity of employee wage data, authorized company seal/signature, and timely statutory distribution to workers remain the sole responsibility of the submitting employer/contractor.
+          </div>
+        </div>
+      </details>
+
+      <!-- 2. Applicable Government & Labour Rules -->
+      <details class="rule-accordion">
+        <summary>2. Applicable Government &amp; Labour Rules (Form X &amp; Form XV)</summary>
+        <div class="rule-content">
+          <ul>
+            <li><strong>Contract Labour (Regulation &amp; Abolition) Central Rules, 1971 (CLRA Rules):</strong>
+              <ul>
+                <li><strong>Form X (Employment Card – Rule 76):</strong> Every contractor is legally required to issue an Employment Card in Form X to each worker within <strong>three days</strong> of employment.</li>
+                <li><strong>Form XV (Wage Slip – Rule 78(2)(b)):</strong> Every contractor must issue a Wage Slip in Form XV to every workman at least <strong>one day prior</strong> to the disbursement of wages.</li>
+              </ul>
+            </li>
+            <li><strong>Code on Wages, 2019 &amp; State Labour Laws:</strong> Employers and contractors must maintain accurate wage, attendance, and deduction records and provide physical or electronic wage slips to workers as prescribed under applicable Central/State labour rules (including Odisha Contract Labour Rules, where applicable).</li>
+            <li><strong>Employer Statutory Obligation:</strong> Generating a formatted sheet through this portal does not complete statutory compliance unless the employer verifies all figures, affixes valid authorization, and distributes the forms to workers within statutory timelines.</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- 3. IT Rules & Data Privacy Policy -->
+      <details class="rule-accordion">
+        <summary>3. IT Rules &amp; Data Privacy Policy (IT Act, 2000 &amp; DPDP Act, 2023)</summary>
+        <div class="rule-content">
+          <p style="margin-top:0;">This portal operates in alignment with the <strong>Information Technology Act, 2000</strong>, the <strong>IT (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</strong>, and the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>:</p>
+          <ul>
+            <li><strong>Purpose Limitation:</strong> Employee data (names, wages, UAN/ESIC details, designations), company seals, and signatures uploaded via Excel/CSV or image files are collected <strong>strictly</strong> for generating Form XV and Form X documents and delivering them to your registered email ID.</li>
+            <li><strong>Data Ownership &amp; Employer Authorization:</strong> By uploading employee spreadsheets and company seals/signatures, the user warrants that they are an authorized representative of the company/contractor and have lawful authority to process the employees' personal and payroll data.</li>
+            <li><strong>Data Retention &amp; Confidentiality:</strong> Uploaded wage sheets, signature/seal files, and generated forms are stored securely on restricted Google Drive storage solely for order processing and verification, and are periodically purged. We never sell, rent, or share client or employee data with third parties.</li>
+            <li><strong>Prohibition of Cyber Misuse (Sections 43 &amp; 66 of IT Act, 2000):</strong> Uploading forged company seals/signatures, fabricated payment receipts, malware, or unauthorized third-party records is strictly prohibited and will result in immediate rejection and legal reporting.</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- 4. Portal Rules, Terms of Service & Refund Policy -->
+      <details class="rule-accordion">
+        <summary>4. Portal Rules, Terms of Service &amp; Refund Policy</summary>
+        <div class="rule-content">
+          <ol>
+            <li><strong>Service Fee:</strong> The processing fee is <strong>₹20 per person</strong>, covering both <strong>Form XV (Wage Slip)</strong> and <strong>Form X (Employment Card)</strong> for each listed employee.</li>
+            <li><strong>Data Accuracy:</strong> Documents are auto-generated directly from the Excel/CSV file uploaded by the user. Easy Compliance Solutions does not audit or alter wage calculations; please verify names, UAN/ESIC numbers, attendance days, and wage figures before uploading.</li>
+            <li><strong>Mandatory Submission Requirements:</strong> Processing begins only upon receipt of (a) a valid Wage Sheet (<code>.xlsx</code>, <code>.xls</code>, <code>.csv</code>), (b) a clear Company Signature with Seal, and (c) a valid Payment Receipt matching <code>₹20 × Person Count</code>.</li>
+            <li><strong>Delivery Timeline:</strong> Verified submissions are delivered to the registered Email ID within <strong>1 hour</strong> during working hours. Delays caused by unreadable seals, mismatched payment amounts, or corrupted files will be notified via email/phone.</li>
+            <li><strong>Refund &amp; Cancellation Policy:</strong> Once documents are generated and dispatched to your email ID, fees are <strong>non-refundable</strong>. In case of duplicate payment or an unfulfilled order due to a technical issue on our end, verified refunds are processed within <strong>5–7 business days</strong>.</li>
+            <li><strong>Governing Law &amp; Jurisdiction:</strong> These terms are governed by the laws of India, with exclusive jurisdiction vested in the courts of <strong>Odisha, India</strong>.</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Services & Promotional Footer Section -->
+  <footer class="services-promo-section">
+    <h2 class="promo-headline">ALL TYPES OF COMPLIANCE SOLUTIONS AT AFFORDABLE PRICES!</h2>
+    <p class="promo-subheadline">We offer complete compliance solutions at the most competitive prices.</p>
+
+    <div class="services-heading">OUR SERVICES INCLUDE</div>
+    <div class="services-grid">
+      <div class="service-item"><span class="service-check">✓</span> Labour Licence &amp; Registration</div>
+      <div class="service-item"><span class="service-check">✓</span> EPF &amp; ESIC Compliance</div>
+      <div class="service-item"><span class="service-check">✓</span> Monthly Statutory Compliance</div>
+      <div class="service-item"><span class="service-check">✓</span> Payroll &amp; Wage Management</div>
+      <div class="service-item"><span class="service-check">✓</span> Contractor &amp; Vendor Compliance</div>
+      <div class="service-item"><span class="service-check">✓</span> Compliance Documentation &amp; Verification</div>
+      <div class="service-item"><span class="service-check">✓</span> HR Documentation &amp; Automation</div>
+      <div class="service-item"><span class="service-check">✓</span> All Types of Industrial Compliance Solutions</div>
+    </div>
+
+    <div class="cta-banner">
+      <div class="cta-question">LOOKING FOR RELIABLE &amp; COST-EFFECTIVE COMPLIANCE SUPPORT?</div>
+      <div class="cta-contacts">
+        <div class="cta-pill">
+          📩 FOR BEST QUOTATIONS, EMAIL US:<br>
+          <a href="mailto:seasycompliance@gmail.com">seasycompliance@gmail.com</a>
+        </div>
+        <div class="cta-pill">
+          📞 CONTACT OUR TEAM:<br>
+          <strong>NIGAM BISOYI</strong> – <a href="tel:+918511283107">+91 85112 83107</a>
+        </div>
+      </div>
+      <div class="tagline-motto">YOUR COMPLIANCE, OUR RESPONSIBILITY!</div>
+    </div>
+
+    <div class="footer-links">
+      <a onclick="openPolicyModal('disclaimer')">Disclaimer</a>
+      <a onclick="openPolicyModal('govt')">Government &amp; Labour Rules</a>
+      <a onclick="openPolicyModal('it')">IT Rules &amp; Privacy Policy</a>
+      <a onclick="openPolicyModal('terms')">Portal Rules &amp; Refund Policy</a>
+    </div>
+
+    <div class="footer-copy">&copy; 2026 Easy Compliance Solutions. All Rights Reserved. | Private Labour &amp; HR Compliance Consultancy</div>
+  </footer>
+
+  <!-- Floating WhatsApp Help Button -->
+  <a
+    class="whatsapp-float"
+    href="https://wa.me/918511283107?text=Hi%20Easy%20Compliance%20Solutions%2C%20I%20need%20help%20with%20Form%20XV%20%26%20Form%20X%20submission."
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span>💬 WhatsApp Help</span>
+  </a>
+
+  <!-- Pop-up Modal for Quick Policy Viewing -->
+  <div class="policy-modal-overlay" id="policyModal" onclick="if(event.target === this) closePolicyModal()">
+    <div class="policy-modal-box">
+      <div class="policy-modal-header">
+        <span id="policyModalTitle">Portal Policy</span>
+        <button type="button" class="policy-modal-close" onclick="closePolicyModal()">&times;</button>
+      </div>
+      <div class="policy-modal-body" id="policyModalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // Google Sheet & Drive Web App URL:
+    const SHEET_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyXGnM_CUxU7_MN5yElMtKHHGZy_Qlf4wIeH-gDZdU8uBiAD-J8xtCc_NUQNRDkc1DDvQ/exec";
+
+    // One-Click Copy Helper
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.classList.remove("copied");
+        }, 1800);
+      });
+    }
+
+    // Policy Modal Data & Functions
+    const POLICY_CONTENT = {
+      disclaimer: {
+        title: "Non-Government Entity Disclaimer",
+        html: `
+          <div class="disclaimer-callout">
+            <strong>Easy Compliance Solutions</strong> is a <strong>private, independent compliance consultancy and document-formatting service</strong>. We are <strong>NOT</strong> affiliated with, endorsed by, authorized by, or connected to the Ministry of Labour &amp; Employment, any State Labour Department, or any Government of India portal or agency.
+          </div>
+          <p>This portal solely assists contractors, employers, and HR teams in formatting their submitted payroll data into statutory templates (<strong>Form XV – Wage Slip</strong> and <strong>Form X – Employment Card</strong>). The legal accuracy, authenticity of employee wage data, authorized company seal/signature, and timely statutory issuance to workers remain the sole responsibility of the submitting employer/contractor.</p>
+        `
+      },
+      govt: {
+        title: "Applicable Government & Labour Rules",
+        html: `
+          <ul>
+            <li><strong>Contract Labour (Regulation &amp; Abolition) Central Rules, 1971:</strong>
+              <ul>
+                <li><strong>Form X (Employment Card – Rule 76):</strong> Every contractor must issue an Employment Card in Form X to each worker within <strong>3 days</strong> of employment.</li>
+                <li><strong>Form XV (Wage Slip – Rule 78(2)(b)):</strong> Every contractor must issue a Wage Slip in Form XV to every workman at least <strong>1 day prior</strong> to the disbursement of wages.</li>
+              </ul>
+            </li>
+            <li><strong>Code on Wages, 2019 &amp; State Rules:</strong> Employers and contractors must maintain accurate wage, attendance, and deduction records and issue physical or electronic wage slips to workers as prescribed under applicable Central/State labour rules.</li>
+            <li><strong>Employer Obligation:</strong> Generating formatted documents through this portal does not fulfill statutory compliance unless the employer verifies the data, affixes valid authorization, and distributes the forms to respective employees within statutory deadlines.</li>
+          </ul>
+        `
+      },
+      it: {
+        title: "IT Rules & Data Privacy Policy (IT Act, 2000 & DPDP Act, 2023)",
+        html: `
+          <p>In compliance with the <strong>Information Technology Act, 2000</strong>, the <strong>IT (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011</strong>, and the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>:</p>
+          <ul>
+            <li><strong>Purpose Limitation:</strong> Employee data, company seals, and signatures uploaded via Excel/CSV or image files are collected <strong>strictly</strong> to generate Form XV &amp; Form X documents and deliver them to your registered email ID.</li>
+            <li><strong>Data Ownership &amp; Consent:</strong> By uploading employee spreadsheets and company seals/signatures, you warrant that you are an authorized representative of the company/contractor and have lawful authority to process the employees' data.</li>
+            <li><strong>Data Retention &amp; Confidentiality:</strong> Uploaded files are retained solely for processing, delivery, and verification, and are periodically purged. We never sell, rent, or share client or employee data with third parties.</li>
+            <li><strong>Prohibition of Cyber Misuse (Sections 43 &amp; 66, IT Act):</strong> Uploading forged seals/signatures, fraudulent payment receipts, malware, or unauthorized third-party data is strictly prohibited and subject to legal action.</li>
+          </ul>
+        `
+      },
+      terms: {
+        title: "Portal Rules, Terms of Service & Refund Policy",
+        html: `
+          <ol>
+            <li><strong>Service Fee:</strong> ₹20 per person, covering both <strong>Form XV (Wage Slip)</strong> and <strong>Form X (Employment Card)</strong>.</li>
+            <li><strong>Data Accuracy:</strong> Documents are auto-generated directly from your uploaded Excel/CSV file. Please verify all names, UAN/ESIC numbers, attendance days, and wage figures before submitting.</li>
+            <li><strong>Mandatory Uploads:</strong> Processing starts only upon receiving a valid Wage Sheet, clear Company Signature with Seal, and Payment Receipt matching <code>₹20 × Person Count</code>.</li>
+            <li><strong>Delivery Timeline:</strong> Verified orders are delivered to your Email ID within <strong>1 hour</strong> during working hours.</li>
+            <li><strong>Refund Policy:</strong> Once documents are generated and emailed, fees are <strong>non-refundable</strong>. Duplicate payments or technical failures on our end are refunded within <strong>5–7 business days</strong> after verification.</li>
+            <li><strong>Jurisdiction:</strong> Governed by the laws of India, subject to the exclusive jurisdiction of courts in <strong>Odisha, India</strong>.</li>
+          </ol>
+        `
+      }
+    };
+
+    function openPolicyModal(key) {
+      const item = POLICY_CONTENT[key];
+      if (!item) return;
+      document.getElementById("policyModalTitle").innerText = item.title;
+      document.getElementById("policyModalBody").innerHTML = item.html;
+      document.getElementById("policyModal").style.display = "flex";
+    }
+
+    function closePolicyModal() {
+      document.getElementById("policyModal").style.display = "none";
+    }
+
+    // 1. Live Payment Date & Time (IST)
+    function getISTDate() {
+      const now = new Date();
+      return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (5.5 * 60 * 60 * 1000));
+    }
+
+    function updateClock() {
+      const ist = getISTDate();
+      document.getElementById("paymentTime").value = ist.toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "medium"
+      });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // 2. Auto-read uploaded Wage Sheet to detect Person Count & Company Name
+    document.getElementById("wageSheetFile").addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      const detectMsg = document.getElementById("detectMsg");
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: "array" });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: "" });
+
+          const validRows = rows.filter(r => Object.values(r).some(v => String(v).trim() !== ""));
+          const count = validRows.length;
+
+          if (count > 0) {
+            document.getElementById("personCount").value = count;
+            calculateTotal();
+
+            const firstRow = validRows[0];
+            const contractorKey = Object.keys(firstRow).find(k => k.toLowerCase().includes("contractor"));
+            if (contractorKey && firstRow[contractorKey] && !document.getElementById("companyName").value) {
+              document.getElementById("companyName").value = String(firstRow[contractorKey]).trim();
+            }
+
+            detectMsg.style.color = "#065f46";
+            detectMsg.innerText = `✓ Detected ${count} employee(s) in "${file.name}". Total amount updated to ₹${count * 20}.`;
+          } else {
+            detectMsg.style.color = "#b45309";
+            detectMsg.innerText = `File "${file.name}" attached. Please verify Person Count manually below.`;
+          }
+        } catch (err) {
+          detectMsg.style.color = "#0f766e";
+          detectMsg.innerText = `✓ File "${file.name}" attached. Enter Person Count below to calculate amount.`;
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+
+    // 3. Calculate Amount (Rs 20 per person)
+    function calculateTotal() {
+      const count = parseInt(document.getElementById("personCount").value) || 0;
+      const total = count * 20;
+      document.getElementById("calculatedAmount").value = total;
+      document.getElementById("amountPaid").value = total;
+      document.getElementById("qrAmountText").innerText = `₹${total}`;
+    }
+    calculateTotal();
+
+    // 4. Generate Client-Side Order ID (IST)
+    function generateOrderId() {
+      const ist = getISTDate();
+      const pad = n => String(n).padStart(2, "0");
+      const datePart = `${ist.getFullYear()}${pad(ist.getMonth() + 1)}${pad(ist.getDate())}`;
+      const timePart = `${pad(ist.getHours())}${pad(ist.getMinutes())}${pad(ist.getSeconds())}`;
+      return `ECS-${datePart}-${timePart}`;
+    }
+
+    // 5. Helper to read file as Base64
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve(null);
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+          name: file.name,
+          mimeType: file.type || "application/octet-stream",
+          data: reader.result.split(",")[1]
+        });
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // 6. Form Submission Handler (Reads Server Confirmation & Preserves Exact Order ID)
+    document.getElementById("clientOrderForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      const statusText = document.getElementById("statusText");
+
+      const clientOrderId = generateOrderId();
+      const companyName = document.getElementById("companyName").value.trim();
+      const paymentTime = document.getElementById("paymentTime").value;
+      const personCount = document.getElementById("personCount").value;
+      const calculatedAmount = document.getElementById("calculatedAmount").value;
+      const clientEmail = document.getElementById("clientEmail").value.trim();
+      const amountPaid = document.getElementById("amountPaid").value;
+
+      const excelFile = document.getElementById("wageSheetFile").files[0];
+      const signFile = document.getElementById("companySignFile").files[0];
+      const receiptFile = document.getElementById("paymentReceiptFile").files[0];
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Uploading Wage Sheet & Payment Receipt to Drive...";
+      statusText.style.color = "#1d4ed8";
+      statusText.innerText = "Please wait while your wage sheet, Seal/Signature, and Payment Receipt are saved...";
+
+      try {
+        const [excelPayload, signPayload, receiptPayload] = await Promise.all([
+          readFileAsBase64(excelFile),
+          readFileAsBase64(signFile),
+          readFileAsBase64(receiptFile)
+        ]);
+
+        const payload = {
+          orderId: clientOrderId,
+          companyName,
+          paymentTime,
+          personCount,
+          calculatedAmount,
+          clientEmail,
+          amountPaid,
+          legalConsentAccepted: true,
+          excelFile: excelPayload,
+          signFile: signPayload,
+          receiptFile: receiptPayload
+        };
+
+        const response = await fetch(SHEET_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (result.status !== "success") {
+          throw new Error(result.message || "Server rejected submission.");
+        }
+
+        const confirmedOrderId = result.orderId || clientOrderId;
+
+        // Show Client Success Message
+        document.getElementById("formContainer").style.display = "none";
+        document.getElementById("successScreen").style.display = "block";
+        document.getElementById("confirmEmailDisplay").innerText = clientEmail;
+        document.getElementById("receiptSummary").innerHTML = `
+          <div><strong>Order ID:</strong> <span style="color:#1d4ed8; font-weight:800;">${confirmedOrderId}</span> <button type="button" class="btn-copy" onclick="copyText('${confirmedOrderId}', this)">Copy ID</button></div>
+          <div><strong>Company Name:</strong> ${companyName}</div>
+          <div><strong>Uploaded Wage Sheet:</strong> ${excelFile.name}</div>
+          <div><strong>Submission Time:</strong> ${paymentTime}</div>
+          <div><strong>Persons Count:</strong> ${personCount} (Both Form XV &amp; Form X)</div>
+          <div><strong>Amount Paid:</strong> ₹${amountPaid}</div>
+          <div><strong>Delivery Mail ID:</strong> ${clientEmail}</div>
+          <div><strong>Status:</strong> Saved to Google Drive (Order_Easy) &amp; Logged (Delivery within 1 hour)</div>
+        `;
+
+        // Pre-fill Order Tracker with exact Order ID
+        document.getElementById("trackQueryInput").value = confirmedOrderId;
+
+      } catch (err) {
+        statusText.style.color = "#dc2626";
+        statusText.innerText = "Upload failed: " + err.message;
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Details & Payment Receipt";
+      }
+    });
+
+    // 7. Live Order Status Tracker
+    async function trackOrder(e) {
+      e.preventDefault();
+      const query = document.getElementById("trackQueryInput").value.trim();
+      const resultsDiv = document.getElementById("trackerResults");
+      const trackBtn = document.getElementById("trackBtn");
+      if (!query) return;
+
+      trackBtn.disabled = true;
+      trackBtn.innerText = "Checking...";
+      resultsDiv.innerHTML = `<div style="color:#475569;">Searching order records...</div>`;
+
+      try {
+        const res = await fetch(`${SHEET_SCRIPT_URL}?action=track&query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+
+        if (data.status === "success" && data.orders && data.orders.length > 0) {
+          resultsDiv.innerHTML = data.orders.map(o => {
+            const st = (o.orderStatus || "PENDING").toUpperCase();
+            const badgeClass = st === "COMPLETED" ? "status-completed" : (st === "IN PROGRESS" ? "status-progress" : "status-pending");
+            return `
+              <div class="track-item">
+                <div>
+                  <div><strong>${o.orderId}</strong> — ${o.companyName}</div>
+                  <div style="font-size:12px; color:#475569;">
+                    Submitted: ${o.submittedAt} | ${o.personCount} Person(s) | Paid: ₹${o.amountPaid}
+                    ${o.completedAt ? ` | Completed: ${o.completedAt}` : ""}
+                  </div>
+                </div>
+                <span class="status-pill ${badgeClass}">${st}</span>
+              </div>
+            `;
+          }).join("");
+        } else {
+          resultsDiv.innerHTML = `<div style="color:#b45309; font-weight:600;">${data.message || "No matching order found."}</div>`;
+        }
+      } catch (err) {
+        resultsDiv.innerHTML = `<div style="color:#dc2626;">Unable to fetch order status right now. Please try again shortly.</div>`;
+      } finally {
+        trackBtn.disabled = false;
+        trackBtn.innerText = "Check Status";
+      }
+    }
+
+    // 8. Download Sample Excel Format
+    function downloadWageFormat() {
+      const sampleData = [
+        {
+          "Contractor": "",
+          "Vendor Code": "",
+          "Sub Vendor": "",
+          "Establishment": "",
+          "Nature of work and location of work": "",
+          "Principal Employer": "",
+          "Name of the Workman": "Ramesh Kumar",
+          "Father Name": "Suresh Kumar",
+          "Sex": "M",
+          "GP ID": "EMP-1001",
+          "Sl. No. in the register of workmen employed": "101",
+          "Nature of employment / Designation": "Skilled Technician",
+          "Wage period": "Monthly",
+          "Period of employment": "01-Apr-2026 to 31-Mar-2027",
+          "Remarks": "Active",
+          "Month Ending": "Nov-26",
+          "No. of days worked": 26,
+          "Rate of daily wages": 500,
+          "Earining BASIC": 13000,
+          "HRA(20%) of Basic": 2600,
+          "EL(5.77%) of Basic)": 750,
+          "NH(2.56%) Basic+HRA)": 399,
+          "Advance Statutory Bonus@8.33% on basic": 1083,
+          "Incentive": 0,
+          "Dates on which overtime worked": 0,
+          "Overtime Hours": 0,
+          "Overtime Wages": 0,
+          "Other Allowance": 0,
+          "PF": 1560,
+          "ESIC": 115,
+          "Professional Tax": 0,
+          "Advance": 0,
+          "ESIC No": "4405626376",
+          "UAN NO": "101740693837"
+        }
+      ];
+
+      const worksheet = XLSX.utils.json_to_sheet(sampleData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "EmployeeData");
+      XLSX.writeFile(workbook, "Wage_Sheet_Format.xlsx");
+    }
+  </script>
+</body>
+</html>
